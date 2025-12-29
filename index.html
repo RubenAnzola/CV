@@ -2,63 +2,62 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CV Builder Profesional - Estilo Marcela</title>
+    <title>IA CV Builder Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <aside class="editor">
-            <h2>Generador de CV</h2>
+            <h2 class="editor-title"><i class="fas fa-pen-nib"></i> Editor Profesional</h2>
             
             <div class="config-section">
-                <h3>1. Identidad y Contacto</h3>
+                <h3><i class="fas fa-user"></i> Identidad</h3>
                 <input type="text" oninput="sincronizar('p-nombre', this.value)" placeholder="Nombre Completo">
-                <input type="text" oninput="sincronizar('p-titulo-cv', this.value)" placeholder="Profesión" style="margin-top:10px">
-                <textarea oninput="sincronizar('p-contacto', this.value)" placeholder="Tlf | Email | Ubicación" rows="3" style="margin-top:10px"></textarea>
+                <input type="text" oninput="sincronizar('p-titulo-cv', this.value)" placeholder="Profesión Actual">
+                <textarea oninput="sincronizar('p-contacto', this.value)" placeholder="Teléfono, Email, Ciudad..." rows="3"></textarea>
             </div>
 
             <div class="config-section">
-                <h3>2. Contenido con IA</h3>
+                <h3><i class="fas fa-robot"></i> Redacción IA</h3>
                 <input type="text" id="input-titulo" placeholder="Cargo para la IA">
-                <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Sugerir Perfil</button>
-                <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Sugerir Logros</button>
-            </div>
-
-            <div class="config-section">
-                <h3>3. Educación y Otros</h3>
-                <textarea oninput="sincronizar('p-educacion', this.value)" placeholder="Universidad, Años..." rows="3"></textarea>
-                <textarea oninput="sincronizar('p-habilidades', this.value)" placeholder="Habilidad 1, Habilidad 2..." rows="3" style="margin-top:10px"></textarea>
-            </div>
-
-            <div class="config-section">
-                <h3>4. Diseño y Foto</h3>
-                <input type="file" accept="image/*" onchange="cargarFoto(event)">
-                <div style="background:#f8fafc; padding:10px; margin-top:10px">
-                    <button class="btn-ia" style="background:#666" onclick="toggleFormaFoto()">Círculo / Cuadrado</button>
-                    <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
-                    <input type="range" min="0" max="100" value="50" oninput="moverFotoY(this.value)">
-                    <input type="color" value="#000000" onchange="cambiarColor(this.value)" style="height:30px; margin-top:10px">
+                <div class="btn-group">
+                    <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Sugerir Perfil</button>
+                    <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Sugerir Logros</button>
                 </div>
             </div>
 
-            <button class="btn-print" onclick="window.print()">🖨️ Guardar PDF</button>
+            <div class="config-section">
+                <h3><i class="fas fa-graduation-cap"></i> Formación y Diseño</h3>
+                <textarea oninput="sincronizar('p-educacion', this.value)" placeholder="Educación (Universidad, Año...)" rows="3"></textarea>
+                <textarea oninput="sincronizar('p-habilidades', this.value)" placeholder="Habilidades (Separadas por comas)" rows="2"></textarea>
+                <div class="photo-tools">
+                    <input type="file" accept="image/*" onchange="cargarFoto(event)" id="f-upload">
+                    <label for="f-upload" class="btn-upload"><i class="fas fa-image"></i> Subir Foto</label>
+                    <div class="sliders">
+                        <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
+                        <input type="range" min="0" max="100" value="50" oninput="moverFotoY(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-print" onclick="window.print()"><i class="fas fa-file-pdf"></i> Generar Documento</button>
         </aside>
 
         <section id="ai-suggestions" class="suggestions-panel">
-            <h4>Opciones de la IA</h4>
-            <p style="font-size:11px">Usa los botones ✨ para generar ideas aquí.</p>
+            <h4><i class="fas fa-magic"></i> Ideas de la IA</h4>
+            <div class="hint">Escribe tu cargo para generar textos orgánicos.</div>
         </section>
 
         <main class="preview-container">
             <div id="cv-preview" class="cv-paper">
                 <header class="cv-header">
                     <div class="header-left">
-                        <h1 id="p-nombre" contenteditable="true">MARCELA ANDRADE</h1>
-                        <p id="p-titulo-cv" class="subtitle" contenteditable="true">PROGRAMADORA</p>
+                        <h1 id="p-nombre" contenteditable="true">NOMBRE COMPLETO</h1>
+                        <p id="p-titulo-cv" class="subtitle" contenteditable="true">TU PROFESIÓN</p>
                     </div>
                     <div class="header-right">
-                        <div id="p-contacto" contenteditable="true">hola@sitioincreible.com<br>(55) 1234-5678<br>Ciudad Increíble</div>
                         <div id="marco-foto" class="photo-frame">
                             <img id="img-preview" src="" alt="">
                         </div>
@@ -67,23 +66,34 @@
 
                 <div class="cv-body">
                     <div class="cv-col-left">
-                        <h4>EDUCACIÓN</h4>
-                        <div id="p-educacion" class="editable-area" contenteditable="true">Universidad 1<br>Grado en universidad 1<br>2016 - 2020</div>
+                        <div class="contact-box" id="p-contacto" contenteditable="true">
+                            <i class="fas fa-phone"></i> +00 000 000<br>
+                            <i class="fas fa-envelope"></i> email@ejemplo.com
+                        </div>
                         
-                        <h4>HABILIDADES</h4>
+                        <h4>Educación</h4>
+                        <div id="p-educacion" class="editable-area" contenteditable="true">
+                            <strong>Grado Académico</strong><br>Universidad | 20XX
+                        </div>
+                        
+                        <h4>Habilidades</h4>
                         <ul id="p-habilidades" class="bullet-list" contenteditable="true">
-                            <li>Lenguajes de programación</li>
-                            <li>Base de datos y caché</li>
+                            <li>Habilidad técnica 1</li>
+                            <li>Habilidad blanda 2</li>
                         </ul>
                     </div>
 
                     <div class="cv-col-right">
-                        <h4>ACERCA DE MÍ</h4>
-                        <div id="p-sobremi" class="editable-area" contenteditable="true">Soy ingeniera de software y cuento con 5 años de experiencia...</div>
+                        <h4>Perfil Profesional</h4>
+                        <p id="p-sobremi" class="editable-area" contenteditable="true">Selecciona una sugerencia de la IA o escribe aquí tu resumen...</p>
                         
-                        <h4>EXPERIENCIA PROFESIONAL</h4>
+                        <h4>Experiencia Laboral</h4>
                         <ul id="p-experiencia" class="bullet-list" contenteditable="true">
-                            <li><strong>Creadora de contenido</strong><br>Larana, Inc. - 2020 a 2024<br>Trabajé como desarrolladora software...</li>
+                            <li>
+                                <strong>Cargo / Empresa</strong><br>
+                                <small>2020 - Actualidad</small><br>
+                                Descripción de tus logros principales aquí.
+                            </li>
                         </ul>
                     </div>
                 </div>

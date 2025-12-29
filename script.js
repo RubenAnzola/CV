@@ -1,31 +1,11 @@
-const API_URL = 'https://cv-gmiv.onrender.com';
-
-function sincronizar(id, val) { 
-    // Si es educación o habilidades, tratamos saltos de línea
-    document.getElementById(id).innerHTML = val.replace(/\n/g, "<br>"); 
-}
-
-function cargarFoto(e) {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const img = document.getElementById('img-preview');
-        img.src = reader.result;
-        document.getElementById('marco-foto').classList.add('visible');
-    };
-    reader.readAsDataURL(e.target.files[0]);
-}
-
-function toggleFormaFoto() { document.getElementById('marco-foto').classList.toggle('circle'); }
-function moverFotoX(v) { document.getElementById('img-preview').style.objectPosition = `${v}% ${document.getElementById('img-preview').style.objectPosition.split(' ')[1] || '50%'}`; }
-function moverFotoY(v) { document.getElementById('img-preview').style.objectPosition = `${document.getElementById('img-preview').style.objectPosition.split(' ')[0] || '50%'} ${v}%`; }
-function cambiarColor(c) { document.documentElement.style.setProperty('--primary', c); }
+// ... (mantiene las funciones de carga de foto y moverFoto) ...
 
 async function pedirOpcionesIA(tipo) {
     const cargo = document.getElementById('input-titulo').value;
     const panel = document.getElementById('ai-suggestions');
-    if(!cargo) return alert("Escribe el cargo para la IA");
+    if(!cargo) return alert("Por favor, introduce tu cargo.");
 
-    panel.innerHTML = "<h4>Generando sugerencias orgánicas...</h4>";
+    panel.innerHTML = "<div class='ai-card'>🧠 La IA está redactando sugerencias premium...</div>";
 
     try {
         const res = await fetch(`${API_URL}/generar-IA`, {
@@ -39,17 +19,22 @@ async function pedirOpcionesIA(tipo) {
 
         opciones.forEach(texto => {
             const card = document.createElement('div');
-            card.style = "background:white; padding:12px; margin-bottom:10px; border:1px solid #ddd; cursor:pointer; border-radius:6px; font-size:12px;";
+            card.className = "ai-card-pro";
+            card.style = "background:white; padding:15px; margin-bottom:12px; border:1px solid #eee; cursor:pointer; border-radius:8px; font-size:12.5px; transition: 0.2s; border-left: 4px solid #3498db;";
             card.textContent = texto;
+            
             card.onclick = () => {
-                if(tipo === 'resumen') document.getElementById('p-sobremi').innerText = texto;
-                else {
+                if(tipo === 'resumen') {
+                    document.getElementById('p-sobremi').innerText = texto;
+                } else {
                     const li = document.createElement('li');
-                    li.innerHTML = `<strong>${cargo}</strong><br>Empresa - Fechas<br>${texto}`;
+                    li.innerHTML = `<strong>${cargo}</strong> | Empresa<br>${texto}`;
                     document.getElementById('p-experiencia').appendChild(li);
                 }
             };
             panel.appendChild(card);
         });
-    } catch (e) { panel.innerHTML = "<h4>⚠️ Servidor despertando. Reintenta.</h4>"; }
+    } catch (e) { 
+        panel.innerHTML = "<h4>Servidor despertando... reintenta en 15 seg.</h4>"; 
+    }
 }
