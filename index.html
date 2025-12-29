@@ -2,75 +2,61 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CV Builder Profesional</title>
+    <title>IA CV Builder Professional</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="container">
         <aside class="editor">
             <h2>Configuración</h2>
             
             <div class="config-section">
-                <h3>1. Datos Personales</h3>
+                <h3>1. Datos de Identidad</h3>
                 <div class="group">
                     <label>Nombre Completo</label>
-                    <input type="text" id="input-nombre-ctrl" placeholder="Tu Nombre" oninput="sincronizar('p-nombre', this.value)">
+                    <input type="text" oninput="sincronizar('p-nombre', this.value)" placeholder="Tu Nombre">
                 </div>
                 <div class="group">
-                    <label>Información de Contacto</label>
-                    <textarea id="input-contacto-ctrl" placeholder="Teléfono, Email, Ubicación..." oninput="sincronizar('p-contacto', this.value)"></textarea>
+                    <label>Contacto (Tlf, Email, Ciudad)</label>
+                    <textarea oninput="sincronizar('p-contacto', this.value)" rows="3" placeholder="Pone aquí tus datos..."></textarea>
                 </div>
             </div>
 
             <div class="config-section">
                 <h3>2. Profesión e IA</h3>
                 <div class="group">
-                    <label>¿Cuál es tu profesión?</label>
-                    <input type="text" id="input-titulo" placeholder="Ej: Técnico Informático" oninput="sincronizar('p-titulo', this.value)">
+                    <label>¿Cuál es tu cargo?</label>
+                    <input type="text" id="input-titulo" oninput="sincronizar('p-titulo', this.value)" placeholder="Ej: Gerente de Proyectos">
                 </div>
-                <div class="group">
-                    <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Opciones de Perfil</button>
-                    <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Opciones de Logros</button>
-                </div>
+                <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Sugerir Perfil</button>
+                <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Sugerir Logros</button>
             </div>
 
             <div class="config-section">
-                <h3>3. Foto y Estilo</h3>
+                <h3>3. Diseño y Foto</h3>
                 <div class="group">
-                    <label>Subir Foto</label>
-                    <input type="file" id="input-foto" accept="image/*" onchange="cargarFoto(event)">
+                    <label>Cargar Fotografía</label>
+                    <input type="file" accept="image/*" onchange="cargarFoto(event)">
                 </div>
-                <div class="photo-adjustments">
-                    <button type="button" onclick="toggleFormaFoto()" class="btn-small">Cambiar Forma (Círculo/Cuadrado)</button>
-                    <div class="sliders">
-                        <label>Mover Horizontal</label>
-                        <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
-                        <label>Mover Vertical</label>
-                        <input type="range" min="0" max="100" value="50" oninput="moverFotoY(this.value)">
-                    </div>
+                <div class="photo-controls" style="background:#f8fafc; padding:10px; border-radius:6px;">
+                    <button class="btn-small" onclick="toggleFormaFoto()">Redonda / Cuadrada</button>
+                    <label style="font-size:10px;">Posición Horizontal</label>
+                    <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
+                    <label style="font-size:10px;">Posición Vertical</label>
+                    <input type="range" min="0" max="100" value="50" oninput="moverFotoY(this.value)">
                 </div>
-                <div class="group" style="margin-top:15px;">
-                    <label>Color de Títulos y Líneas</label>
-                    <input type="color" id="input-color" value="#000000" onchange="cambiarColor(this.value)">
-                </div>
-                <div class="group">
-                    <label>Fuente</label>
-                    <select onchange="cambiarFuente(this.value)">
-                        <option value="'Roboto', sans-serif">Roboto</option>
-                        <option value="'Lora', serif">Lora</option>
-                        <option value="'Montserrat', sans-serif">Montserrat</option>
-                    </select>
+                <div class="group" style="margin-top:15px">
+                    <label>Color de Acento (Predeterminado: Negro)</label>
+                    <input type="color" value="#000000" onchange="cambiarColor(this.value)">
                 </div>
             </div>
 
-            <button onclick="window.print()" class="btn-print">🖨️ Descargar PDF</button>
+            <button class="btn-ia" style="background:#10b981" onclick="window.print()">🖨️ Descargar PDF</button>
         </aside>
 
         <section id="ai-suggestions" class="suggestions-panel">
             <h4>Sugerencias de la IA</h4>
-            <p style="font-size:12px; color:gray;">Escribe tu profesión y usa los botones mágicos.</p>
+            <p style="font-size:11px">Las sugerencias personalizadas aparecerán aquí.</p>
         </section>
 
         <main class="preview-container">
@@ -78,10 +64,8 @@
                 <header class="cv-header">
                     <div class="header-text">
                         <h1 id="p-nombre" contenteditable="true">NOMBRE COMPLETO</h1>
-                        <p id="p-titulo" class="subtitle" contenteditable="true">TU PROFESIÓN</p>
-                        <div id="p-contacto" class="contact-info" contenteditable="true">
-                            Teléfono | Email | Ciudad
-                        </div>
+                        <p id="p-titulo" class="subtitle" contenteditable="true">TU PROFESIÓN / CARGO</p>
+                        <div id="p-contacto" class="contact-info" contenteditable="true">Teléfono | Email | Ciudad</div>
                     </div>
                     <div class="header-photo">
                         <div id="marco-foto" class="photo-frame">
@@ -89,35 +73,22 @@
                         </div>
                     </div>
                 </header>
-
                 <hr class="main-line">
-
                 <div class="section">
                     <h3>PERFIL PROFESIONAL</h3>
                     <hr class="section-line">
-                    <p id="p-sobremi" contenteditable="true">Tu resumen profesional aparecerá aquí...</p>
+                    <p id="p-sobremi" contenteditable="true">Haz clic para escribir o selecciona una opción de la IA...</p>
                 </div>
-
                 <div class="section">
                     <h3>EXPERIENCIA LABORAL</h3>
                     <hr class="section-line">
                     <ul id="p-experiencia" contenteditable="true" class="bullet-list">
-                        <li><strong>Empresa</strong> | Cargo (Fecha) - Descripción de tus logros...</li>
+                        <li>Primer logro profesional...</li>
                     </ul>
-                </div>
-
-                <div class="section">
-                    <h3>FORMACIÓN Y HABILIDADES</h3>
-                    <hr class="section-line">
-                    <div contenteditable="true">
-                        <p><strong>Educación:</strong> Título obtenido...</p>
-                        <p><strong>Habilidades:</strong> Competencias clave...</p>
-                    </div>
                 </div>
             </div>
         </main>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
