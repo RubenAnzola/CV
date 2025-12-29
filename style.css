@@ -1,0 +1,122 @@
+/* Esto obliga al texto a saltar de línea y no salirse del papel */
+#cv-preview p, 
+#cv-preview h2, 
+#p-sobremi, 
+#p-experiencia {
+    word-wrap: break-word;      /* Rompe palabras largas */
+    overflow-wrap: break-word;  /* Alternativa moderna */
+    white-space: pre-line;      /* Respeta los "Enter" que hagas en el formulario */
+    max-width: 100%;            /* No permite que supere el ancho del contenedor */
+}
+
+h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    color: var(--primary); /* El color cambiará dinámicamente */
+}
+
+.color-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-color {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: 2px solid white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+/* Configuración General */
+:root {
+    --bg-color: #f0f2f5;
+    --primary: #2563eb;
+    --paper-white: #ffffff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Estilo del Editor (Izquierda) */
+.editor {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.group { margin-bottom: 15px; }
+label { display: block; font-weight: bold; margin-bottom: 5px; color: #374151; }
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Estilo del Papel CV (Derecha) */
+.cv-paper {
+    background: var(--paper-white);
+    width: 210mm; /* Ancho A4 */
+    min-height: 297mm; /* Alto A4 */
+    padding: 20mm;
+    margin: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+
+#img-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    margin-bottom: 15px;
+}
+
+.hidden { display: none; }
+
+/* 🖨️ REGLAS DE IMPRESIÓN */
+@media print {
+    /* Ocultar todo menos el CV */
+    .editor, button, h1, .group {
+        display: none !important;
+    }
+    
+    body { background: white; padding: 0; }
+    .container { display: block; }
+    .cv-paper {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+    }
+}

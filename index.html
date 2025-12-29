@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de CV Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <section class="editor">
+            <h1>Generador de CV</h1>
+            
+            <form id="cv-form">
+                <div class="group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="input-nombre" placeholder="Ej: Rubén Anzola" required>
+                </div>
+
+                <div class="group">
+                    <label>Profesión / Título</label>
+                    <input type="text" id="input-titulo" placeholder="Ej: Desarrollador Full Stack">
+                </div>
+
+                <div class="group">
+                    <label>Correo Electrónico (ID de guardado)</label>
+                    <input type="email" id="input-email" placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div class="group">
+                    <label>Sobre mí</label>
+                    <textarea id="input-sobremi" rows="3" placeholder="Breve descripción profesional..."></textarea>
+                </div>
+
+                <div class="group">
+                    <label>Experiencia Laboral</label>
+                    <textarea id="input-experiencia" rows="4" placeholder="Empresa - Cargo - Logros..."></textarea>
+                </div>
+
+                <div class="group">
+                    <label>Foto de Perfil</label>
+                    <div class="photo-options">
+                        <label><input type="checkbox" id="check-foto"> ¿Incluir foto?</label>
+                        <input type="file" id="input-foto" accept="image/*" style="display:none">
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label>Color del Diseño</label>
+                    <div class="color-picker">
+                        <button type="button" class="btn-color" data-color="#2563eb" style="background:#2563eb"></button>
+                        <button type="button" class="btn-color" data-color="#1f2937" style="background:#1f2937"></button>
+                        <button type="button" class="btn-color" data-color="#059669" style="background:#059669"></button>
+                        <button type="button" class="btn-color" data-color="#7c3aed" style="background:#7c3aed"></button>
+                    </div>
+                </div>
+
+                <div class="group">
+                     <label>Estilo de Letra</label>
+                     <div class="font-picker">
+                          <button type="button" onclick="aplicarFuente('Lora')">Elegante</button>
+                          <button type="button" onclick="aplicarFuente('Roboto')">Moderna</button>
+                          <button type="button" onclick="aplicarFuente('Dancing Script')">Creativa</button>
+                          <button type="button" onclick="aplicarFuente('Playfair Display')">Impactante</button>
+                    </div>
+                </div>
+
+                <div class="actions-buttons">
+                    <button type="button" id="btn-descargar">🖨️ Imprimir / PDF</button>
+                    <button type="button" onclick="guardarCV()" class="btn-cloud">☁️ Guardar en la Nube</button>
+                    <button type="button" onclick="recuperarCV()" class="btn-load">📂 Cargar CV Guardado</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="preview-container">
+            <div id="cv-preview" class="cv-paper">
+                <header>
+                    <div id="preview-photo-container" class="hidden">
+                        <img id="img-preview" src="" alt="Foto">
+                    </div>
+                    <div class="header-text">
+                        <h2 id="p-nombre">Tu Nombre</h2>
+                        <p id="p-titulo" class="subtitle">Tu Profesión</p>
+                        <p id="p-email">correo@ejemplo.com</p>
+                    </div>
+                </header>
+
+                <hr>
+
+                <div class="cv-body">
+                    <div class="section">
+                        <h3>Perfil Profesional</h3>
+                        <p id="p-sobremi">Aquí aparecerá tu descripción...</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>Experiencia</h3>
+                        <p id="p-experiencia" style="white-space: pre-line;">Detalles de tu experiencia laboral...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
