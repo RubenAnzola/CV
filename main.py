@@ -14,6 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Render leerá la clave desde las variables de entorno
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
@@ -29,7 +30,7 @@ def home():
 async def generar_ia(query: IAQuery):
     try:
         prompt = f"""
-        Actúa como experto en reclutamiento. Para el cargo de '{query.titulo}', genera:
+        Actúa como experto en RRHH. Para el cargo de '{query.titulo}', genera:
         1. Seis resúmenes profesionales (máximo 4 líneas) elegantes y orgánicos.
         2. Seis logros laborales detallados y potentes para este cargo.
         Responde SOLO en formato JSON: 
