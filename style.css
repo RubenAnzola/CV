@@ -1,62 +1,121 @@
 :root {
     --primary-ui: #2c3e50;
     --accent: #3498db;
-    --bg-app: #f4f7f6;
+    --bg-app: #f0f2f5;
     --cv-black: #000000;
 }
 
-body { font-family: 'Roboto', sans-serif; background: var(--bg-app); margin: 0; }
+body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg-app); margin: 0; }
 
-.container { display: grid; grid-template-columns: 360px 320px 1fr; height: 100vh; }
+/* 1. EDITOR MÁS ANCHO (450px) */
+.container { display: grid; grid-template-columns: 450px 340px 1fr; height: 100vh; }
 
-/* PANEL IZQUIERDO: TARJETAS CON ESPACIADO */
+/* --- EDITOR IZQUIERDO --- */
 .editor { 
     background: white; 
-    padding: 25px; 
+    padding: 30px; 
     border-right: 1px solid #ddd; 
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* ESPACIO ENTRE TARJETAS */
+    display: flex; flex-direction: column; gap: 25px;
+    box-shadow: 2px 0 15px rgba(0,0,0,0.05);
+    z-index: 10;
 }
 
 .config-card {
     background: #fff;
-    border: 1px solid #edf2f7;
+    border: 1px solid #e1e4e8;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 
-.config-card h3 { font-size: 13px; color: var(--accent); margin-bottom: 15px; text-transform: uppercase; }
+.config-card h3 { 
+    font-size: 12px; text-transform: uppercase; color: var(--accent); 
+    margin: 0 0 15px 0; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+}
 
-.group { margin-bottom: 15px; } /* ESPACIO ENTRE INPUTS */
-.input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.group { margin-bottom: 15px; }
 
-label { font-size: 11px; font-weight: bold; color: #718096; display: block; margin-bottom: 5px; }
-input, textarea { width: 100%; padding: 10px; border: 1.5px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; }
+label { font-size: 11px; font-weight: 700; color: #555; display: block; margin-bottom: 5px; }
+input, textarea { 
+    width: 100%; padding: 12px; 
+    border: 1.5px solid #dfe1e5; border-radius: 8px; 
+    box-sizing: border-box; font-size: 13px; transition: 0.2s;
+}
+input:focus, textarea:focus { border-color: var(--accent); outline: none; background: #f8fbff; }
 
-/* HOJA CV PROFESIONAL */
-.preview-container { padding: 40px; background: #546e7a; overflow-y: auto; display: flex; justify-content: center; }
+/* Botones */
+.btn-ia { 
+    border: none; padding: 12px; border-radius: 8px; cursor: pointer; 
+    font-weight: 600; font-size: 12px; width: 100%; display: flex; 
+    align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
+}
+.btn-primary { background: var(--primary-ui); color: white; }
+.btn-primary:hover { background: #1a252f; }
+.btn-secondary { background: #eef2f7; color: var(--primary-ui); border: 1px solid #dce1e6; }
+.btn-secondary:hover { background: #dfe4ea; }
+
+.btn-generate { 
+    background: #10b981; color: white; padding: 18px; border: none; 
+    border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: auto; 
+    font-size: 14px; letter-spacing: 0.5px;
+}
+.btn-generate:hover { background: #059669; }
+
+/* --- PANEL CENTRAL (TARJETAS FLOTANTES) --- */
+.suggestions-panel {
+    background: #f0f2f5; /* Fondo diferente al editor */
+    padding: 25px;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+}
+
+/* Tarjetas independientes */
+.ai-card-float {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Sombra profunda para flotar */
+    border: 1px solid white;
+    font-size: 12.5px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.ai-card-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-color: var(--accent);
+}
+.ai-card-float::after { content: "+"; position: absolute; right: 10px; top: 10px; color: var(--accent); font-weight: bold; }
+
+/* --- HOJA FINAL --- */
+.preview-container { padding: 50px; background: #525659; overflow-y: auto; display: flex; justify-content: center; }
 .cv-paper {
     background: #fff; width: 210mm; min-height: 297mm; padding: 50px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    color: var(--cv-black) !important; /* NEGRO POR DEFECTO */
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    color: var(--cv-black) !important;
 }
 
-.cv-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--cv-black); padding-bottom: 20px; }
-#p-nombre-completo { font-size: 34px; margin: 0; color: var(--cv-black); font-family: 'Montserrat'; }
+.cv-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--cv-black); padding-bottom: 25px; }
+#p-nombre-completo { font-size: 36px; margin: 0; color: var(--cv-black); font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
 
-.cv-body { display: grid; grid-template-columns: 200px 1fr; gap: 40px; margin-top: 30px; }
-.cv-col-left { border-right: 1px solid #eee; padding-right: 20px; }
-.cv-paper h4 { border-bottom: 1.5px solid var(--cv-black); padding-bottom: 5px; text-transform: uppercase; font-size: 14px; }
+.cv-body { display: grid; grid-template-columns: 220px 1fr; gap: 40px; margin-top: 30px; }
+.cv-col-left { border-right: 1px solid #eee; padding-right: 25px; }
 
-/* FOTO */
-.photo-frame { width: 120px; height: 120px; border: 2px solid #ddd; display: none; overflow: hidden; }
+.cv-paper h4 { 
+    border-bottom: 1.5px solid var(--cv-black); 
+    padding-bottom: 5px; margin-top: 25px;
+    text-transform: uppercase; font-size: 13px; letter-spacing: 1px; font-weight: 700;
+}
+
+.photo-frame { width: 130px; height: 130px; border: 1px solid #ccc; display: none; overflow: hidden; }
 .photo-frame.visible { display: block; }
 .photo-frame.circle { border-radius: 50%; }
 #img-preview { width: 100%; height: 100%; object-fit: cover; }
 
-.btn-generate { background: #10b981; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-@media print { .editor, .suggestions-panel { display: none; } .cv-paper { box-shadow: none; } }
+@media print { .editor, .suggestions-panel { display: none; } .cv-paper { box-shadow: none; margin: 0; } }
