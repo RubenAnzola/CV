@@ -1,71 +1,59 @@
 :root {
-    --primary: #000000; /* Negro por defecto */
+    --primary: #000000;
     --font-main: 'Roboto', sans-serif;
 }
 
-body {
-    font-family: var(--font-main);
-    background: #f1f5f9;
-    margin: 0;
-    height: 100vh;
-}
+body { font-family: 'Roboto', sans-serif; background: #e2e8f0; margin: 0; }
+.container { display: grid; grid-template-columns: 320px 350px 1fr; height: 100vh; }
 
-.container {
-    display: grid;
-    grid-template-columns: 320px 350px 1fr;
-    height: 100vh;
-}
+/* CONFIGURACIÓN */
+.editor, .suggestions-panel { background: white; padding: 20px; border-right: 1px solid #cbd5e1; overflow-y: auto; }
+.config-section { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.config-section h3 { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
 
-/* --- COLUMNA 1: CONFIGURACIÓN --- */
-.editor { background: white; padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; }
-.config-section { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-.config-section h3 { font-size: 13px; text-transform: uppercase; color: #64748b; margin-bottom: 15px; }
-.group { margin-bottom: 15px; }
-label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-
-/* Botones */
-.btn-ia { background: #000; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 8px; }
-.btn-ia:hover { background: #333; }
-.btn-small { width: 100%; font-size: 11px; padding: 5px; cursor: pointer; margin-bottom: 10px; }
-
-/* --- COLUMNA 2: SUGERENCIAS --- */
-.suggestions-panel { background: #f8fafc; padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; }
-.ai-card { background: white; padding: 15px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; line-height: 1.5; cursor: pointer; }
-.ai-card:hover { border-color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-/* --- COLUMNA 3: PAPEL CV --- */
+/* HOJA CV PROFESIONAL */
 .preview-container { padding: 40px; background: #475569; overflow-y: auto; display: flex; justify-content: center; }
 .cv-paper {
-    background: white; width: 210mm; min-height: 297mm; padding: 60px;
+    background: white; width: 210mm; min-height: 297mm; padding: 40px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    color: #000000 !important; /* TEXTO NEGRO PREDETERMINADO */
+    color: #000 !important; display: flex; flex-direction: column;
 }
 
-/* Header: Foto a la derecha */
-.cv-header { display: flex; justify-content: space-between; align-items: flex-start; }
-.header-text { flex: 1; padding-right: 20px; }
-#p-nombre { font-size: 34px; margin: 0; color: var(--primary); font-weight: 700; }
-.subtitle { font-size: 19px; color: #000; margin: 5px 0; }
-.contact-info { font-size: 13px; color: #000; white-space: pre-line; }
+/* HEADER ESTILO MARCELA */
+.cv-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 20px; margin-bottom: 20px; }
+.header-left h1 { font-size: 38px; margin: 0; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); }
+.header-left .subtitle { font-size: 20px; color: #666; margin: 5px 0; text-transform: uppercase; letter-spacing: 3px; }
+.header-right { text-align: right; font-size: 12px; display: flex; align-items: center; gap: 15px; }
 
-/* Foto Frame */
-.header-photo { width: 140px; display: flex; justify-content: flex-end; }
-.photo-frame { width: 125px; height: 125px; border: 2px solid var(--primary); display: none; overflow: hidden; }
+/* CUERPO DE DOS COLUMNAS */
+.cv-body { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
+
+/* COLUMNA IZQUIERDA (Educación, Habilidades) */
+.cv-col-left { border-right: 1px solid #eee; padding-right: 15px; }
+.cv-col-left h4 { border-bottom: 1px solid var(--primary); padding-bottom: 5px; margin-top: 25px; font-size: 14px; text-transform: uppercase; }
+
+/* COLUMNA DERECHA (Perfil, Experiencia) */
+.cv-col-right { padding-left: 5px; }
+.cv-col-right h4 { border-bottom: 1px solid var(--primary); padding-bottom: 5px; margin-top: 25px; font-size: 14px; text-transform: uppercase; }
+
+/* FOTO */
+.photo-frame { width: 110px; height: 110px; border: 1px solid #ddd; display: none; overflow: hidden; }
 .photo-frame.visible { display: block; }
 .photo-frame.circle { border-radius: 50%; }
 #img-preview { width: 100%; height: 100%; object-fit: cover; }
 
-/* Secciones y Viñetas */
-.main-line { border: 0; border-top: 3px solid var(--primary); margin: 20px 0; }
-.section-line { border: 0; border-top: 1px solid var(--primary); margin: 5px 0 15px 0; }
-.section h3 { font-size: 16px; color: var(--primary); margin: 0; font-weight: 700; }
-.bullet-list { padding-left: 20px; margin: 10px 0; list-style-type: disc; }
-.bullet-list li { margin-bottom: 8px; color: #000; }
+/* TEXTOS */
+.editable-area { font-size: 13px; line-height: 1.6; margin-top: 10px; color: #333; }
+.bullet-list { padding-left: 15px; margin: 10px 0; list-style-type: disc; }
+.bullet-list li { margin-bottom: 5px; font-size: 12px; }
+
+/* BOTONES */
+.btn-ia { background: #000; color: #fff; width: 100%; padding: 10px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; margin-bottom: 5px; }
+.btn-print { background: #10b981; color: white; width: 100%; padding: 15px; border: none; cursor: pointer; border-radius: 8px; font-weight: bold; }
 
 @media print {
     .editor, .suggestions-panel { display: none; }
     .container { display: block; }
     .preview-container { padding: 0; background: white; }
-    .cv-paper { box-shadow: none; margin: 0; }
+    .cv-paper { box-shadow: none; width: 100%; padding: 20px; }
 }

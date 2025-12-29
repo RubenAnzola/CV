@@ -14,7 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Render leerá la clave automáticamente desde la variable de entorno que configuraste
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
@@ -24,26 +23,24 @@ class IAQuery(BaseModel):
 
 @app.get("/")
 def home():
-    return {"status": "IA Real de Google Conectada"}
+    return {"status": "IA de Google Conectada"}
 
 @app.post("/generar-IA")
 async def generar_ia(query: IAQuery):
     try:
-        # Prompt para generar contenido profesional y orgánico
         prompt = f"""
-        Actúa como un experto en reclutamiento. Para el cargo de '{query.titulo}', genera:
-        1. Seis resúmenes profesionales diferentes, orgánicos y de alto nivel (máximo 3 líneas cada uno).
-        2. Seis logros profesionales breves y potentes para la sección de experiencia.
-        Responde estrictamente en formato JSON con dos listas: 'resumenes' y 'logros'.
+        Actúa como experto en reclutamiento. Para el cargo de '{query.titulo}', genera:
+        1. Seis resúmenes profesionales (máximo 4 líneas) elegantes y orgánicos.
+        2. Seis logros laborales detallados y potentes para este cargo.
+        Responde SOLO en formato JSON: 
+        {{"resumenes": ["opcion1",...], "logros": ["logro1",...]}}
         """
-        
         response = model.generate_content(prompt)
         raw_text = response.text.replace("```json", "").replace("```", "").strip()
         data = json.loads(raw_text)
-        
         return {
             "opciones_resumen": data['resumenes'],
             "opciones_logros": data['logros']
         }
     except Exception as e:
-        return {"error": str(e), "opciones_resumen": ["Error al conectar con la IA de Google"], "opciones_logros": []}
+        return {"error": str(e), "opciones_resumen": ["Error al generar opciones"], "opciones_logros": []}
