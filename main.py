@@ -15,36 +15,42 @@ app.add_middleware(
 class IAQuery(BaseModel):
     titulo: str
 
+@app.get("/")
+def home():
+    return {"status": "Servidor Profesional Activo"}
+
 @app.post("/generar-IA")
 def generar_ia(query: IAQuery):
-    # Tomamos la profesión y la ponemos bonita (ej: "ingeniero" -> "Ingeniero")
     cargo = query.titulo.title()
     
-    # --- CEREBRO DINÁMICO ---
-    # Estas plantillas funcionan para CUALQUIER cargo
-    
+    # --- PLANTILLAS CORPORATIVAS (MÁS COMPLETAS) ---
     plantillas_resumen = [
-        f"Profesional consolidado como {cargo}, con una sólida trayectoria enfocada en la eficiencia operativa y la consecución de objetivos estratégicos.",
-        f"Experto en el área de {cargo} con habilidades demostradas para liderar iniciativas complejas y aportar soluciones innovadoras al equipo.",
-        f"Como {cargo}, me caracterizo por mi capacidad de adaptación, aprendizaje continuo y enfoque en la calidad del servicio.",
-        f"{cargo} altamente motivado, con experiencia práctica y un firme compromiso con el desarrollo profesional y el trabajo en equipo.",
-        f"Especialista ejerciendo como {cargo}, orientado a resultados y con gran capacidad para la resolución de problemas bajo presión."
+        f"Profesional altamente competente ejerciento como {cargo}, con una sólida trayectoria en la optimización de recursos y la implementación de estrategias que impulsan la eficiencia operativa.",
+        f"{cargo} con visión estratégica y amplia experiencia en entornos exigentes. Especialista en liderar equipos multidisciplinarios y en la resolución proactiva de desafíos complejos.",
+        f"Experto consolidado en el rol de {cargo}, comprometido con la excelencia técnica y la mejora continua. Destacada capacidad para gestionar proyectos críticos cumpliendo estrictos estándares de calidad.",
+        f"Trayectoria probada como {cargo}, aportando soluciones innovadoras que incrementan la rentabilidad y el rendimiento. Habilidad innata para la comunicación efectiva y la negociación a nivel ejecutivo.",
+        f"Perfil orientado a resultados como {cargo}, con un enfoque analítico para la toma de decisiones. Experto en identificar oportunidades de crecimiento y en la gestión integral del ciclo de vida de los proyectos.",
+        f"Como {cargo}, combino conocimientos técnicos avanzados con habilidades de gestión para entregar resultados superiores. Enfocado en la satisfacción del cliente y en el desarrollo sostenible del negocio.",
+        f"Especialista proactivo en funciones de {cargo}, reconocido por la capacidad de adaptación a nuevas tecnologías y mercados cambiantes, garantizando siempre la continuidad operativa.",
+        f"{cargo} apasionado por la innovación y el trabajo colaborativo. Historial comprobado de éxitos en la transformación de procesos y en la elevación de los estándares de servicio."
     ]
 
     plantillas_logros = [
-        f"Optimización de procesos clave relacionados con las funciones de {cargo}, mejorando la productividad en un 20%.",
-        f"Liderazgo exitoso de proyectos en el rol de {cargo}, cumpliendo con todos los plazos y estándares de calidad.",
-        f"Implementación de nuevas metodologías para modernizar las tareas habituales de {cargo}.",
-        "Reconocimiento por desempeño sobresaliente y contribución proactiva al éxito del departamento.",
-        f"Capacitación y mentoría de nuevos miembros del equipo en prácticas de {cargo}."
+        f"Diseño y ejecución de un plan estratégico como {cargo} que resultó en un incremento del 25% en la productividad anual del departamento.",
+        f"Liderazgo de un equipo de alto rendimiento en tareas de {cargo}, logrando reducir los tiempos de entrega en un 30% mediante metodologías ágiles.",
+        f"Implementación exitosa de nuevos protocolos de seguridad y calidad inherentes al rol de {cargo}, alcanzando una tasa de cumplimiento del 100%.",
+        f"Gestión eficiente de presupuestos y recursos como {cargo}, logrando un ahorro de costes operativos del 15% sin sacrificar la calidad final.",
+        f"Desarrollo de alianzas estratégicas clave y negociación con proveedores en mi gestión como {cargo}, mejorando la cadena de valor de la empresa.",
+        f"Reconocimiento corporativo al 'Mejor Desempeño' por la resolución crítica de incidencias complejas actuando como {cargo} senior.",
+        f"Capacitación y mentoría de personal junior en técnicas avanzadas de {cargo}, elevando el nivel técnico general del equipo.",
+        f"Supervisión directa de proyectos de gran envergadura como {cargo}, asegurando la entrega a tiempo y bajo las especificaciones del cliente."
     ]
 
-    # Mezclamos las opciones para que siempre parezcan frescas
+    # Mezclamos y devolvemos 6 opciones
     random.shuffle(plantillas_resumen)
     random.shuffle(plantillas_logros)
 
-    # Devolvemos las 3 mejores opciones generadas
     return {
-        "opciones_resumen": plantillas_resumen[:3],
-        "opciones_logros": plantillas_logros[:3]
+        "opciones_resumen": plantillas_resumen[:6],
+        "opciones_logros": plantillas_logros[:6]
     }
