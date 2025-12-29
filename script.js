@@ -144,6 +144,43 @@ async function recuperarCV() {
     }
 }
 
+// --- NUEVA FUNCIÓN DE ASISTENTE ---
+async function generarSugerenciaIA() {
+    // 1. Buscamos el botón para cambiarle el texto
+    const btnIA = document.getElementById('btn-sugerir-ia');
+    const profesion = inputs.titulo.value;
+
+    if (!profesion || profesion === "Tu Profesión") {
+        alert("Primero escribe tu profesión arriba para que la IA sepa qué sugerir.");
+        return;
+    }
+
+    btnIA.textContent = "🪄 Pensando ideas...";
+    btnIA.style.opacity = "0.7";
+
+    try {
+        // 2. Llamamos a tu servidor en Render
+        const response = await fetch(`${API_URL}/generar-IA`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo: profesion })
+        });
+
+        const data = await response.json();
+
+        // 3. Inyectamos la respuesta en el DOM
+        inputs.sobremi.value = data.sugerencia; // Se pone en el cuadro de texto
+        preview.sobremi.textContent = data.sugerencia; // Se ve en el CV automáticamente
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Hubo un error al conectar con la IA.");
+    } finally {
+        btnIA.textContent = "✨ Ayúdame con mi perfil";
+        btnIA.style.opacity = "1";
+    }
+}
+
 // --- 6. IMPRIMIR ---
 document.getElementById('btn-descargar').addEventListener('click', () => {
     window.print();

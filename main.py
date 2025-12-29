@@ -5,7 +5,7 @@ from typing import Optional
 
 app = FastAPI()
 
-# Configuración de CORS para permitir conexión desde GitHub Pages
+# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,9 +13,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- MODELO DE DATOS ---
+# --- MODELOS DE DATOS ---
 class CVData(BaseModel):
-    id: str  # Usaremos el email como identificador único
+    id: str  
     nombre: str
     titulo: str
     email: str
@@ -23,7 +23,11 @@ class CVData(BaseModel):
     experiencia: str
     color: str
 
-# Base de datos temporal (en memoria)
+# Modelo para la consulta de IA
+class IAQuery(BaseModel):
+    titulo: str
+
+# Base de datos temporal
 cvs_db = {}
 
 # --- ENDPOINTS ---
@@ -32,25 +36,33 @@ cvs_db = {}
 def home():
     return {"status": "Generador de CV Online activo"}
 
-# 1. Guardar o actualizar un CV
 @app.post("/guardar-cv")
 def guardar_cv(data: CVData):
-    # Guardamos los datos usando el ID (email) como llave
     cvs_db[data.id] = data.model_dump()
-    return {
-        "status": "success",
-        "message": "CV guardado correctamente",
-        "id_recuperacion": data.id
-    }
+    return {"status": "success", "message": "CV guardado correctamente"}
 
-# 2. Recuperar un CV existente
 @app.get("/recuperar-cv/{codigo}")
 def recuperar_cv(codigo: str):
     if codigo in cvs_db:
         return cvs_db[codigo]
-    raise HTTPException(status_code=404, detail="No se encontró ningún CV con ese código")
+    raise HTTPException(status_code=404, detail="No se encontró el CV")
 
-# 3. Listar todos los IDs guardados (opcional para debug)
-@app.get("/debug-cvs")
-def debug_cvs():
-    return {"total": len(cvs_db), "codigos_disponibles": list(cvs_db.keys())}
+# --- NUEVO: ASISTENTE DE IA ---
+@app.post("/generar-IA")
+def generar_ia(query: IAQuery):
+    profesion = query.titulo.lower()
+    sugerencias = {
+        "desarrollador": "Desarrollador apasionado por crear soluciones tecnológicas eficientes. Experto en resolver problemas mediante código limpio y optimizado.",
+        "vendedor": "Profesional orientado a resultados con gran capacidad de persuasión. Enfocado en superar metas de ventas y fidelizar clientes.",
+        "diseñador": "Creativo visual con enfoque en la experiencia del usuario. Especialista en transformar ideas abstractas en diseños funcionales.",
+        "admin": "Administrador organizado con alta capacidad analítica. Comprometido con la eficiencia operativa y la mejora de procesos."
+    }
+    
+    resultado = "Profesional proactivo con sólida formación y deseos de contribuir al éxito del equipo aportando mis habilidades."
+    
+    for clave, texto in sugerencias.items():
+        if clave in profesion:
+            resultado = texto
+            break
+            
+    return {"sugerencia": resultado}
