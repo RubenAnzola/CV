@@ -2,11 +2,10 @@
     --primary: #2563eb;
     --bg-gray: #f3f4f6;
     --white: #ffffff;
-    --text-dark: #1f2937;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-gray);
     margin: 0;
     padding: 20px;
@@ -16,129 +15,56 @@ body {
 
 .container {
     display: grid;
-    grid-template-columns: 400px 1fr; /* Formulario fijo, CV flexible */
-    gap: 30px;
-    max-width: 1200px;
+    grid-template-columns: 420px 1fr; /* Formulario a la izquierda, CV a la derecha */
+    gap: 20px;
+    max-width: 1300px;
     width: 100%;
 }
 
-/* --- COLUMNA IZQUIERDA: EDITOR --- */
 .editor {
     background: var(--white);
-    padding: 25px;
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     height: fit-content;
 }
 
-.group {
-    margin-bottom: 15px;
-}
+.group { margin-bottom: 15px; }
+label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
+input, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
 
-.group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: var(--text-dark);
-}
-
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-/* Botones de IA */
 .btn-ia {
     background: #eff6ff;
     color: var(--primary);
     border: 1px dashed var(--primary);
     padding: 8px;
-    margin: 5px 0 10px 0;
+    margin: 5px 0;
     cursor: pointer;
-    border-radius: 6px;
     width: 100%;
+    border-radius: 5px;
     font-weight: bold;
-    transition: 0.3s;
 }
 
-.btn-ia:hover {
-    background: var(--primary);
-    color: white;
-}
-
-/* --- COLUMNA DERECHA: VISTA PREVIA --- */
-.preview-container {
-    position: sticky;
-    top: 20px;
-}
+.preview-container { position: sticky; top: 20px; }
 
 .cv-paper {
-    background: var(--white);
-    width: 210mm; /* Tamaño A4 aproximado */
-    min-height: 297mm;
+    background: white;
     padding: 50px;
-    margin: 0 auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    transition: font-family 0.3s ease;
-}
-
-#p-nombre {
-    margin: 0;
-    color: var(--primary);
-    font-size: 32px;
-    text-transform: uppercase;
-}
-
-.subtitle {
-    font-size: 18px;
-    color: #4b5563;
-    margin-bottom: 10px;
-}
-
-.section {
-    margin-top: 25px;
+    min-height: 297mm;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-sizing: border-box;
 }
 
 .section h3 {
     border-bottom: 2px solid var(--primary);
     color: var(--primary);
-    padding-bottom: 5px;
     margin-bottom: 10px;
 }
 
-/* Estilo para listas y formación */
-#p-experiencia, #p-sobremi, #p-cursos {
-    white-space: pre-line;
-    line-height: 1.6;
-}
+#p-nombre { font-size: 32px; color: var(--primary); margin: 0; }
 
-/* --- BOTONES DE ACCIÓN --- */
-.actions-buttons {
-    display: grid;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.actions-buttons button {
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-}
-
-#btn-descargar { background: #10b981; }
-.btn-cloud { background: var(--primary); }
-.btn-load { background: #6b7280; }
-
-/* Ocultar en impresión */
 @media print {
     .editor { display: none; }
-    body { padding: 0; background: white; }
-    .cv-paper { box-shadow: none; margin: 0; width: 100%; }
+    .container { display: block; }
+    .cv-paper { box-shadow: none; padding: 0; }
 }

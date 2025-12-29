@@ -1,33 +1,98 @@
-<div class="group">
-    <label>¿Cuál es tu profesión?</label>
-    <input type="text" id="input-titulo" placeholder="Ej: Desarrollador">
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de CV con IA - Rubén Anzola</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<div class="group">
-    <label>Sobre mí</label>
-    <button type="button" class="btn-ia" onclick="llamarIA('resumen')">✨ Generar con IA</button>
-    <textarea id="input-sobremi" rows="3"></textarea>
-</div>
+    <div class="container">
+        <section class="editor">
+            <h1>Generador de CV</h1>
+            
+            <form id="cv-form">
+                <div class="group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="input-nombre" placeholder="Ej: Rubén Anzola">
+                </div>
 
-<div class="group">
-    <label>Experiencia</label>
-    <button type="button" class="btn-ia" onclick="llamarIA('experiencia')">💡 Sugerir Logros</button>
-    <textarea id="input-experiencia" rows="4"></textarea>
-</div>
+                <div class="group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="input-email" placeholder="correo@ejemplo.com">
+                </div>
 
-<div class="group"><label>Herramientas</label><input type="text" id="input-herramientas"></div>
-<div class="group"><label>Idiomas</label><input type="text" id="input-idiomas"></div>
-<div class="group"><label>Cursos</label><textarea id="input-cursos"></textarea></div>
+                <hr>
 
-<div id="cv-preview">
-    <h2 id="p-nombre">Nombre</h2>
-    <p id="p-titulo">Profesión</p>
-    <div class="section"><h3>Perfil</h3><p id="p-sobremi"></p></div>
-    <div class="section"><h3>Experiencia</h3><p id="p-experiencia"></p></div>
-    <div class="section">
-        <h3>Habilidades y Formación</h3>
-        <p><strong>Herramientas:</strong> <span id="p-herramientas"></span></p>
-        <p><strong>Idiomas:</strong> <span id="p-idiomas"></span></p>
-        <p><strong>Cursos:</strong> <span id="p-cursos"></span></p>
+                <div class="group">
+                    <label>¿Cuál es tu profesión? (Base para la IA)</label>
+                    <input type="text" id="input-titulo" placeholder="Ej: Desarrollador Full Stack">
+                </div>
+
+                <div class="group">
+                    <label>Sobre mí</label>
+                    <button type="button" class="btn-ia" onclick="llamarIA('resumen')">✨ Generar Resumen con IA</button>
+                    <textarea id="input-sobremi" rows="4" placeholder="Haz clic en el botón de arriba para obtener ideas..."></textarea>
+                </div>
+
+                <div class="group">
+                    <label>Experiencia Laboral</label>
+                    <button type="button" class="btn-ia" onclick="llamarIA('experiencia')">💡 Sugerir Logros Profesionales</button>
+                    <textarea id="input-experiencia" rows="5" placeholder="Empresa - Cargo - Logros..."></textarea>
+                </div>
+
+                <div class="group">
+                    <label>Herramientas y Tecnologías</label>
+                    <input type="text" id="input-herramientas" placeholder="Ej: Python, React, SQL...">
+                </div>
+
+                <div class="group">
+                    <label>Idiomas</label>
+                    <input type="text" id="input-idiomas" placeholder="Ej: Inglés (C1), Español (Nativo)">
+                </div>
+
+                <div class="group">
+                    <label>Cursos y Certificaciones</label>
+                    <textarea id="input-cursos" rows="2" placeholder="Ej: Certificación AWS, Curso de IA..."></textarea>
+                </div>
+
+                <div class="actions-buttons">
+                    <button type="button" id="btn-descargar">🖨️ Imprimir / Guardar PDF</button>
+                    <button type="button" class="btn-cloud" onclick="guardarCV()">☁️ Guardar en la Nube</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="preview-container">
+            <div id="cv-preview" class="cv-paper">
+                <header>
+                    <h2 id="p-nombre">Tu Nombre</h2>
+                    <p id="p-titulo" class="subtitle">Tu Profesión</p>
+                    <p id="p-email">correo@ejemplo.com</p>
+                </header>
+
+                <div class="section">
+                    <h3>Perfil Profesional</h3>
+                    <p id="p-sobremi">Aquí aparecerá tu descripción...</p>
+                </div>
+
+                <div class="section">
+                    <h3>Experiencia Laboral</h3>
+                    <p id="p-experiencia">Detalles de tu trayectoria...</p>
+                </div>
+
+                <div class="section">
+                    <h3>Habilidades y Formación</h3>
+                    <p><strong>Herramientas:</strong> <span id="p-herramientas">...</span></p>
+                    <p><strong>Idiomas:</strong> <span id="p-idiomas">...</span></p>
+                    <p><strong>Cursos:</strong> <span id="p-cursos">...</span></p>
+                </div>
+            </div>
+        </section>
     </div>
-</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-// --- IMPORTANTE: NUEVA URL DE TU SERVIDOR ---
 const API_URL = 'https://cv-gmiv.onrender.com'; 
 
 const inputs = {
@@ -23,8 +22,6 @@ const preview = {
     idiomas: document.getElementById('p-idiomas')
 };
 
-const papelCV = document.getElementById('cv-preview');
-
 // Sincronización en tiempo real
 Object.keys(inputs).forEach(key => {
     inputs[key].addEventListener('input', () => {
@@ -37,8 +34,7 @@ async function llamarIA(tipo) {
     if (!profesion) return alert("Escribe tu profesión primero.");
 
     const btn = event.target;
-    const originalText = btn.textContent;
-    btn.textContent = "🪄 Pensando...";
+    btn.textContent = "🪄 Generando...";
 
     try {
         const res = await fetch(`${API_URL}/generar-IA`, {
@@ -46,7 +42,6 @@ async function llamarIA(tipo) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ titulo: profesion })
         });
-        
         const data = await res.json();
 
         if (tipo === 'resumen') {
@@ -57,20 +52,10 @@ async function llamarIA(tipo) {
             preview.experiencia.textContent = data.logros;
         }
     } catch (err) {
-        alert("El servidor está despertando. Intenta de nuevo en 20 segundos.");
+        alert("El servidor está despertando. Reintenta en 10 segundos.");
     } finally {
-        btn.textContent = originalText;
+        btn.textContent = tipo === 'resumen' ? "✨ Generar con IA" : "💡 Sugerir Logros";
     }
-}
-
-function aplicarFuente(familia) {
-    const fuentes = {
-        'Lora': "'Lora', serif",
-        'Roboto': "'Roboto', sans-serif",
-        'Dancing Script': "'Dancing Script', cursive",
-        'Playfair Display': "'Playfair Display', serif"
-    };
-    if (fuentes[familia]) papelCV.style.fontFamily = fuentes[familia];
 }
 
 document.getElementById('btn-descargar').addEventListener('click', () => window.print());
