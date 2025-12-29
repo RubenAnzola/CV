@@ -1,140 +1,144 @@
-/* Esto obliga al texto a saltar de línea y no salirse del papel */
-#cv-preview p, 
-#cv-preview h2, 
-#p-sobremi, 
-#p-experiencia {
-    word-wrap: break-word;      /* Rompe palabras largas */
-    overflow-wrap: break-word;  /* Alternativa moderna */
-    white-space: pre-line;      /* Respeta los "Enter" que hagas en el formulario */
-    max-width: 100%;            /* No permite que supere el ancho del contenedor */
-}
-
-h2, h3 {
-    font-family: 'Roboto', sans-serif;
-    color: var(--primary); /* El color cambiará dinámicamente */
-}
-
-.color-picker {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-color {
-    width: 30px !important;
-    height: 30px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    border: 2px solid white;
-    box-shadow: 0 0 3px rgba(0,0,0,0.2);
-}
-
-/* Configuración General */
 :root {
-    --bg-color: #f0f2f5;
     --primary: #2563eb;
-    --paper-white: #ffffff;
+    --bg-gray: #f3f4f6;
+    --white: #ffffff;
+    --text-dark: #1f2937;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-color);
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-gray);
     margin: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
-    padding: 20px;
 }
 
 .container {
     display: grid;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 400px 1fr; /* Formulario fijo, CV flexible */
     gap: 30px;
     max-width: 1200px;
     width: 100%;
 }
 
-/* Estilo del Editor (Izquierda) */
+/* --- COLUMNA IZQUIERDA: EDITOR --- */
 .editor {
-    background: white;
+    background: var(--white);
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     height: fit-content;
 }
 
-.group { margin-bottom: 15px; }
-label { display: block; font-weight: bold; margin-bottom: 5px; color: #374151; }
+.group {
+    margin-bottom: 15px;
+}
+
+.group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
 input, textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-/* Estilo del Papel CV (Derecha) */
-.cv-paper {
-    background: var(--paper-white);
-    width: 210mm; /* Ancho A4 */
-    min-height: 297mm; /* Alto A4 */
-    padding: 20mm;
-    margin: auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    box-sizing: border-box;
-}
-
-#img-preview {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--primary);
-    margin-bottom: 15px;
-}
-
-.hidden { display: none; }
-
-/* 🖨️ REGLAS DE IMPRESIÓN */
-@media print {
-    /* Ocultar todo menos el CV */
-    .editor, button, h1, .group {
-        display: none !important;
-    }
-    
-    body { background: white; padding: 0; }
-    .container { display: block; }
-    .cv-paper {
-        box-shadow: none;
-        margin: 0;
-        width: 100%;
-    }
-}
-
+/* Botones de IA */
 .btn-ia {
-    background: #eef2ff;
-    color: #4f46e5;
-    border: 1px solid #c7d2fe;
-    padding: 6px 12px;
-    border-radius: 4px;
-    margin-top: 8px;
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px dashed var(--primary);
+    padding: 8px;
+    margin: 5px 0 10px 0;
     cursor: pointer;
-    font-weight: bold;
+    border-radius: 6px;
     width: 100%;
+    font-weight: bold;
     transition: 0.3s;
 }
 
 .btn-ia:hover {
-    background: #4f46e5;
+    background: var(--primary);
     color: white;
+}
+
+/* --- COLUMNA DERECHA: VISTA PREVIA --- */
+.preview-container {
+    position: sticky;
+    top: 20px;
+}
+
+.cv-paper {
+    background: var(--white);
+    width: 210mm; /* Tamaño A4 aproximado */
+    min-height: 297mm;
+    padding: 50px;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: font-family 0.3s ease;
+}
+
+#p-nombre {
+    margin: 0;
+    color: var(--primary);
+    font-size: 32px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #4b5563;
+    margin-bottom: 10px;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.section h3 {
+    border-bottom: 2px solid var(--primary);
+    color: var(--primary);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para listas y formación */
+#p-experiencia, #p-sobremi, #p-cursos {
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+/* --- BOTONES DE ACCIÓN --- */
+.actions-buttons {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.actions-buttons button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+#btn-descargar { background: #10b981; }
+.btn-cloud { background: var(--primary); }
+.btn-load { background: #6b7280; }
+
+/* Ocultar en impresión */
+@media print {
+    .editor { display: none; }
+    body { padding: 0; background: white; }
+    .cv-paper { box-shadow: none; margin: 0; width: 100%; }
 }
