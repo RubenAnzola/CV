@@ -2,95 +2,79 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creador de CV con IA - Rubén Anzola</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>IA CV Builder - Universal</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
-        <section class="editor">
-            <h1>Generador de CV</h1>
+        <aside class="editor">
+            <h2>Generador de CV</h2>
+            <p class="instruccion">1. Escribe tu cargo para activar la IA:</p>
             
-            <form id="cv-form">
-                <div class="group">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="input-nombre" placeholder="Ej: Rubén Anzola">
-                </div>
+            <div class="group">
+                <label>¿Cuál es tu profesión?</label>
+                <input type="text" id="input-titulo" placeholder="Ej: Contable, Enfermero, Chofer...">
+            </div>
 
-                <div class="group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="input-email" placeholder="correo@ejemplo.com">
-                </div>
+            <div class="group">
+                <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Generar Opciones de Perfil</button>
+                <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Sugerir Logros para el Cargo</button>
+            </div>
 
-                <hr>
+            <hr>
+            
+            <div class="group">
+                <label>Nombre Completo</label>
+                <input type="text" id="input-nombre-control" placeholder="Tu Nombre" oninput="sincronizarNombre()">
+            </div>
 
-                <div class="group">
-                    <label>¿Cuál es tu profesión? (Base para la IA)</label>
-                    <input type="text" id="input-titulo" placeholder="Ej: Desarrollador Full Stack">
-                </div>
+            <div class="actions-buttons">
+                <button onclick="window.print()" class="btn-print">🖨️ Imprimir / PDF</button>
+            </div>
+        </aside>
 
-                <div class="group">
-                    <label>Sobre mí</label>
-                    <button type="button" class="btn-ia" onclick="llamarIA('resumen')">✨ Generar Resumen con IA</button>
-                    <textarea id="input-sobremi" rows="4" placeholder="Haz clic en el botón de arriba para obtener ideas..."></textarea>
-                </div>
-
-                <div class="group">
-                    <label>Experiencia Laboral</label>
-                    <button type="button" class="btn-ia" onclick="llamarIA('experiencia')">💡 Sugerir Logros Profesionales</button>
-                    <textarea id="input-experiencia" rows="5" placeholder="Empresa - Cargo - Logros..."></textarea>
-                </div>
-
-                <div class="group">
-                    <label>Herramientas y Tecnologías</label>
-                    <input type="text" id="input-herramientas" placeholder="Ej: Python, React, SQL...">
-                </div>
-
-                <div class="group">
-                    <label>Idiomas</label>
-                    <input type="text" id="input-idiomas" placeholder="Ej: Inglés (C1), Español (Nativo)">
-                </div>
-
-                <div class="group">
-                    <label>Cursos y Certificaciones</label>
-                    <textarea id="input-cursos" rows="2" placeholder="Ej: Certificación AWS, Curso de IA..."></textarea>
-                </div>
-
-                <div class="actions-buttons">
-                    <button type="button" id="btn-descargar">🖨️ Imprimir / Guardar PDF</button>
-                    <button type="button" class="btn-cloud" onclick="guardarCV()">☁️ Guardar en la Nube</button>
-                </div>
-            </form>
+        <section id="ai-suggestions" class="suggestions-panel">
+            <h4>Sugerencias Inteligentes</h4>
+            <div class="placeholder-text">
+                <p>👈 Escribe tu profesión a la izquierda y pulsa un botón mágico.</p>
+                <p>Las opciones aparecerán aquí para que elijas la mejor.</p>
+            </div>
         </section>
 
-        <section class="preview-container">
+        <main class="preview-container">
             <div id="cv-preview" class="cv-paper">
-                <header>
-                    <h2 id="p-nombre">Tu Nombre</h2>
-                    <p id="p-titulo" class="subtitle">Tu Profesión</p>
-                    <p id="p-email">correo@ejemplo.com</p>
-                </header>
+                <h1 id="p-nombre" contenteditable="true">TU NOMBRE</h1>
+                <p id="p-titulo" class="subtitle" contenteditable="true">Tu Profesión</p>
+                <p contenteditable="true">correo@ejemplo.com | +58 000 0000 | Ciudad, País</p>
+                <hr>
 
                 <div class="section">
                     <h3>Perfil Profesional</h3>
-                    <p id="p-sobremi">Aquí aparecerá tu descripción...</p>
+                    <p id="p-sobremi" contenteditable="true" class="editable-area">
+                        [Haz clic aquí para escribir tu perfil manualmente o selecciona una opción de la IA en el panel central]
+                    </p>
                 </div>
 
                 <div class="section">
                     <h3>Experiencia Laboral</h3>
-                    <p id="p-experiencia">Detalles de tu trayectoria...</p>
+                    <p style="font-size:12px; color:gray; margin-bottom:5px;">(Haz clic abajo para editar o añade logros con la IA)</p>
+                    <ul id="p-experiencia" contenteditable="true" class="editable-area">
+                        <li>Empresa X - Cargo (Fecha): Descripción de tareas...</li>
+                    </ul>
                 </div>
 
                 <div class="section">
-                    <h3>Habilidades y Formación</h3>
-                    <p><strong>Herramientas:</strong> <span id="p-herramientas">...</span></p>
-                    <p><strong>Idiomas:</strong> <span id="p-idiomas">...</span></p>
-                    <p><strong>Cursos:</strong> <span id="p-cursos">...</span></p>
+                    <h3>Formación y Habilidades</h3>
+                    <div contenteditable="true" class="editable-area">
+                        <p><strong>Educación:</strong> Título Universitario / Técnico...</p>
+                        <p><strong>Habilidades:</strong> Trabajo en equipo, Liderazgo...</p>
+                        <p><strong>Idiomas:</strong> Español (Nativo)...</p>
+                    </div>
                 </div>
             </div>
-        </section>
+        </main>
     </div>
 
     <script src="script.js"></script>
