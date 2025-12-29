@@ -1,43 +1,33 @@
-<section class="editor">
-    <div class="group">
-        <label>¿Cuál es tu profesión?</label>
-        <input type="text" id="input-titulo" placeholder="Ej: Desarrollador Full Stack">
-    </div>
-
-    <div class="group">
-        <label>Sobre mí</label>
-        <button type="button" class="btn-ia" onclick="llamarIA('resumen')">✨ Sugerir Resumen</button>
-        <textarea id="input-sobremi" rows="3"></textarea>
-    </div>
-
-    <div class="group">
-        <label>Experiencia Laboral</label>
-        <button type="button" class="btn-ia" onclick="llamarIA('experiencia')">💡 Sugerir Logros</button>
-        <textarea id="input-experiencia" rows="4"></textarea>
-    </div>
-
-    <div class="group">
-        <label>Herramientas y Tecnologías</label>
-        <input type="text" id="input-herramientas" placeholder="Python, Git, React...">
-    </div>
-
-    <div class="group">
-        <label>Idiomas</label>
-        <input type="text" id="input-idiomas" placeholder="Inglés (C1), Español (Nativo)">
-    </div>
-
-    <div class="group">
-        <label>Cursos y Certificados</label>
-        <textarea id="input-cursos" rows="2"></textarea>
-    </div>
-</section>
-
-<div class="section">
-    <h3>Herramientas e Idiomas</h3>
-    <p><strong>Tech:</strong> <span id="p-herramientas">...</span></p>
-    <p><strong>Idiomas:</strong> <span id="p-idiomas">...</span></p>
+<div class="group">
+    <label>¿Cuál es tu profesión?</label>
+    <input type="text" id="input-titulo" placeholder="Ej: Desarrollador">
 </div>
-<div class="section">
-    <h3>Formación Adicional</h3>
-    <p id="p-cursos">...</p>
+
+<div class="group">
+    <label>Sobre mí</label>
+    <button type="button" class="btn-ia" onclick="llamarIA('resumen')">✨ Generar con IA</button>
+    <textarea id="input-sobremi" rows="3"></textarea>
+</div>
+
+<div class="group">
+    <label>Experiencia</label>
+    <button type="button" class="btn-ia" onclick="llamarIA('experiencia')">💡 Sugerir Logros</button>
+    <textarea id="input-experiencia" rows="4"></textarea>
+</div>
+
+<div class="group"><label>Herramientas</label><input type="text" id="input-herramientas"></div>
+<div class="group"><label>Idiomas</label><input type="text" id="input-idiomas"></div>
+<div class="group"><label>Cursos</label><textarea id="input-cursos"></textarea></div>
+
+<div id="cv-preview">
+    <h2 id="p-nombre">Nombre</h2>
+    <p id="p-titulo">Profesión</p>
+    <div class="section"><h3>Perfil</h3><p id="p-sobremi"></p></div>
+    <div class="section"><h3>Experiencia</h3><p id="p-experiencia"></p></div>
+    <div class="section">
+        <h3>Habilidades y Formación</h3>
+        <p><strong>Herramientas:</strong> <span id="p-herramientas"></span></p>
+        <p><strong>Idiomas:</strong> <span id="p-idiomas"></span></p>
+        <p><strong>Cursos:</strong> <span id="p-cursos"></span></p>
+    </div>
 </div>

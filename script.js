@@ -1,4 +1,5 @@
-const API_URL = 'https://tareadiciembre.onrender.com'; 
+// --- IMPORTANTE: NUEVA URL DE TU SERVIDOR ---
+const API_URL = 'https://cv-gmiv.onrender.com'; 
 
 const inputs = {
     nombre: document.getElementById('input-nombre'),
@@ -24,17 +25,16 @@ const preview = {
 
 const papelCV = document.getElementById('cv-preview');
 
-// Actualización en tiempo real
+// Sincronización en tiempo real
 Object.keys(inputs).forEach(key => {
     inputs[key].addEventListener('input', () => {
         preview[key].textContent = inputs[key].value || "...";
     });
 });
 
-// --- FUNCIONES DE IA ---
 async function llamarIA(tipo) {
     const profesion = inputs.titulo.value;
-    if (!profesion || profesion === "Tu Profesión") return alert("Escribe tu profesión primero.");
+    if (!profesion) return alert("Escribe tu profesión primero.");
 
     const btn = event.target;
     const originalText = btn.textContent;
@@ -46,6 +46,7 @@ async function llamarIA(tipo) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ titulo: profesion })
         });
+        
         const data = await res.json();
 
         if (tipo === 'resumen') {
@@ -56,7 +57,7 @@ async function llamarIA(tipo) {
             preview.experiencia.textContent = data.logros;
         }
     } catch (err) {
-        alert("El servidor está despertando, intenta de nuevo en segundos.");
+        alert("El servidor está despertando. Intenta de nuevo en 20 segundos.");
     } finally {
         btn.textContent = originalText;
     }
@@ -71,13 +72,5 @@ function aplicarFuente(familia) {
     };
     if (fuentes[familia]) papelCV.style.fontFamily = fuentes[familia];
 }
-
-// Colores e Impresión
-document.querySelectorAll('.btn-color').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const color = btn.getAttribute('data-color');
-        document.documentElement.style.setProperty('--primary', color);
-    });
-});
 
 document.getElementById('btn-descargar').addEventListener('click', () => window.print());
