@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>CV Builder Profesional</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@300;400;700&family=Open+Sans:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -12,115 +12,106 @@
         <aside class="editor">
             <h2>Configuración</h2>
             
-            <div class="design-controls">
-                <h3>🎨 Diseño y Color</h3>
+            <div class="config-section">
+                <h3>1. Datos Personales</h3>
                 <div class="group">
-                    <label>Color Principal (Títulos y Líneas)</label>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <input type="color" id="input-color" value="#000000" onchange="cambiarColor(this.value)">
-                        <span style="font-size:12px; color:#555;">Negro por defecto</span>
+                    <label>Nombre Completo</label>
+                    <input type="text" id="input-nombre-ctrl" placeholder="Tu Nombre" oninput="sincronizar('p-nombre', this.value)">
+                </div>
+                <div class="group">
+                    <label>Información de Contacto</label>
+                    <textarea id="input-contacto-ctrl" placeholder="Teléfono, Email, Ubicación..." oninput="sincronizar('p-contacto', this.value)"></textarea>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>2. Profesión e IA</h3>
+                <div class="group">
+                    <label>¿Cuál es tu profesión?</label>
+                    <input type="text" id="input-titulo" placeholder="Ej: Técnico Informático" oninput="sincronizar('p-titulo', this.value)">
+                </div>
+                <div class="group">
+                    <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ Opciones de Perfil</button>
+                    <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 Opciones de Logros</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>3. Foto y Estilo</h3>
+                <div class="group">
+                    <label>Subir Foto</label>
+                    <input type="file" id="input-foto" accept="image/*" onchange="cargarFoto(event)">
+                </div>
+                <div class="photo-adjustments">
+                    <button type="button" onclick="toggleFormaFoto()" class="btn-small">Cambiar Forma (Círculo/Cuadrado)</button>
+                    <div class="sliders">
+                        <label>Mover Horizontal</label>
+                        <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
+                        <label>Mover Vertical</label>
+                        <input type="range" min="0" max="100" value="50" oninput="moverFotoY(this.value)">
                     </div>
                 </div>
-
+                <div class="group" style="margin-top:15px;">
+                    <label>Color de Títulos y Líneas</label>
+                    <input type="color" id="input-color" value="#000000" onchange="cambiarColor(this.value)">
+                </div>
                 <div class="group">
-                    <label>Tipografía</label>
-                    <select id="select-fuente" onchange="cambiarFuente(this.value)">
-                        <option value="'Roboto', sans-serif">Roboto (Moderna)</option>
-                        <option value="'Lora', serif">Lora (Elegante)</option>
-                        <option value="'Open Sans', sans-serif">Open Sans (Limpia)</option>
-                        <option value="'Montserrat', sans-serif">Montserrat (Fuerte)</option>
+                    <label>Fuente</label>
+                    <select onchange="cambiarFuente(this.value)">
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Lora', serif">Lora</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
                     </select>
                 </div>
             </div>
 
-            <hr>
-
-            <div class="photo-controls-panel">
-                <h3>📸 Foto de Perfil</h3>
-                <input type="file" id="input-foto" accept="image/*" onchange="cargarFoto(event)">
-                
-                <div class="control-row">
-                    <label>Forma:</label>
-                    <button type="button" onclick="toggleFormaFoto()" class="btn-small">Cuadrada / Redonda</button>
-                </div>
-                
-                <div class="control-row">
-                    <label>Ajustar Posición (Mover):</label>
-                    <div class="sliders">
-                        <span>↔️ X</span> <input type="range" min="0" max="100" value="50" oninput="moverFotoX(this.value)">
-                        <span>↕️ Y</span> <input type="range" min="0" max="100" value="20" oninput="moverFotoY(this.value)">
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="group">
-                <label>Cargo / Profesión (Para la IA)</label>
-                <input type="text" id="input-titulo" placeholder="Ej: Gerente de Ventas">
-            </div>
-
-            <div class="group">
-                <button class="btn-ia" onclick="pedirOpcionesIA('resumen')">✨ 6 Opciones de Perfil</button>
-                <button class="btn-ia" onclick="pedirOpcionesIA('experiencia')">💡 6 Opciones de Logros</button>
-            </div>
-
-            <div class="actions-buttons">
-                <button onclick="window.print()" class="btn-print">🖨️ Descargar PDF</button>
-            </div>
+            <button onclick="window.print()" class="btn-print">🖨️ Descargar PDF</button>
         </aside>
 
         <section id="ai-suggestions" class="suggestions-panel">
-            <h4>Asistente IA</h4>
-            <div class="placeholder-text">
-                <p>Las opciones generadas aparecerán aquí.</p>
-            </div>
+            <h4>Sugerencias de la IA</h4>
+            <p style="font-size:12px; color:gray;">Escribe tu profesión y usa los botones mágicos.</p>
         </section>
 
         <main class="preview-container">
             <div id="cv-preview" class="cv-paper">
-                
                 <header class="cv-header">
                     <div class="header-text">
-                        <h1 id="p-nombre" contenteditable="true">TU NOMBRE</h1>
+                        <h1 id="p-nombre" contenteditable="true">NOMBRE COMPLETO</h1>
                         <p id="p-titulo" class="subtitle" contenteditable="true">TU PROFESIÓN</p>
-                        <div class="contact-info" contenteditable="true">
-                            <p>📞 +58 0414 000 0000</p>
-                            <p>✉️ correo@ejemplo.com</p>
-                            <p>📍 Ciudad, País</p>
+                        <div id="p-contacto" class="contact-info" contenteditable="true">
+                            Teléfono | Email | Ciudad
                         </div>
                     </div>
                     <div class="header-photo">
-                        <div id="marco-foto" class="photo-frame hidden">
-                            <img id="img-preview" src="" alt="Foto CV">
+                        <div id="marco-foto" class="photo-frame">
+                            <img id="img-preview" src="" alt="">
                         </div>
                     </div>
                 </header>
 
-                <hr class="main-divider">
+                <hr class="main-line">
 
                 <div class="section">
                     <h3>PERFIL PROFESIONAL</h3>
                     <hr class="section-line">
-                    <p id="p-sobremi" contenteditable="true" class="editable-area">
-                        [Escribe aquí tu perfil o selecciona una de las 6 opciones profesionales de la IA]
-                    </p>
+                    <p id="p-sobremi" contenteditable="true">Tu resumen profesional aparecerá aquí...</p>
                 </div>
 
                 <div class="section">
                     <h3>EXPERIENCIA LABORAL</h3>
                     <hr class="section-line">
-                    <ul id="p-experiencia" contenteditable="true" class="editable-area">
-                        <li><strong>Empresa Actual</strong> | Cargo (2020 - Presente)<br>Descripción de responsabilidades...</li>
+                    <ul id="p-experiencia" contenteditable="true" class="bullet-list">
+                        <li><strong>Empresa</strong> | Cargo (Fecha) - Descripción de tus logros...</li>
                     </ul>
                 </div>
 
                 <div class="section">
                     <h3>FORMACIÓN Y HABILIDADES</h3>
                     <hr class="section-line">
-                    <div contenteditable="true" class="editable-area">
-                        <p><strong>Educación:</strong> Título Universitario en...</p>
-                        <p><strong>Habilidades:</strong> Liderazgo, Inglés (C1), Excel Avanzado...</p>
+                    <div contenteditable="true">
+                        <p><strong>Educación:</strong> Título obtenido...</p>
+                        <p><strong>Habilidades:</strong> Competencias clave...</p>
                     </div>
                 </div>
             </div>
